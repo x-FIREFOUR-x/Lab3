@@ -2,7 +2,7 @@
 
 bool priority_queue::empty()
 {
-	if (size != 0)
+	if (_size != 0)
 	{
 		return false;
 	}
@@ -14,18 +14,18 @@ bool priority_queue::empty()
 
 void priority_queue::push(int value_el, int priority_el)
 {
-	int* value_new = new int[size + 1];
-	int* priority_new = new int[size + 1];
+	int* value_new = new int[_size + 1];
+	int* priority_new = new int[_size + 1];
 
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < _size; i++)
 	{
 		value_new[i] = value[i];
 		priority_new[i] = priority[i];
 	}
-	value_new[size] = value_el;
-	priority_new[size] = priority_el;
+	value_new[_size] = value_el;
+	priority_new[_size] = priority_el;
 
-	if (size > 0)
+	if (_size > 0)
 	{
 		delete[] value;
 		delete[] priority;
@@ -34,15 +34,19 @@ void priority_queue::push(int value_el, int priority_el)
 	value = value_new;
 	priority = priority_new;
 
-	size++;
+	_size++;
 }
 
 int priority_queue::pop()
 {
+	if (_size == 0)
+	{
+		return 0;
+	}
 
 	int min_priority = priority[0];
 	int index_el = 0;
-	for (int i = 1; i < size; i++)
+	for (int i = 1; i < _size; i++)
 	{
 		if (min_priority > priority[i])
 		{
@@ -52,21 +56,21 @@ int priority_queue::pop()
 	}
 	int element = value[index_el];
 
-	int* value_new = new int[size - 1];
-	int* priority_new = new int[size - 1];
+	int* value_new = new int[_size - 1];
+	int* priority_new = new int[_size - 1];
 
 	for (int i = 0; i < index_el; i++)
 	{
 		value_new[i] = value[i];
 		priority_new[i] = priority[i];
 	}
-	for (int i = index_el + 1; i < size; i++)
+	for (int i = index_el + 1; i < _size; i++)
 	{
 		value_new[i - 1] = value[i];
 		priority_new[i - 1] = priority[i];
 	}
 
-	if (size > 0)
+	if (_size > 0)
 	{
 		delete[] value;
 		delete[] priority;
@@ -75,12 +79,12 @@ int priority_queue::pop()
 	value = value_new;
 	priority = priority_new;
 
-	size--;
+	_size--;
 
 	return element;
 }
 
-int priority_queue::size_queue()
+int priority_queue::size()
 {
-	return size;
+	return _size;
 }
