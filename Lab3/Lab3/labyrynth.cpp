@@ -69,7 +69,8 @@ int labyrynth::pathfinding(int xs, int ys, int xf, int yf)
 {
 	priority_queue q;
 	int n = height * width;
-	int* cost = new int [n];
+	int* cost = new int[n];
+	int* from = new int[n];
 	for (int i = 0; i < n; i++)
 	{
 		cost[i] = INF;
@@ -77,6 +78,7 @@ int labyrynth::pathfinding(int xs, int ys, int xf, int yf)
 	int id = xs + ys * width;
 	q.push(id, 0);
 	cost[id] = 0;
+	from[id] = -1;
 	while (!q.empty())
 	{
 		id = q.pop();
@@ -86,6 +88,7 @@ int labyrynth::pathfinding(int xs, int ys, int xf, int yf)
 			if (cost[id - width] > cost[id] + 1)
 			{
 				cost[id - width] = cost[id] + 1;
+				from[id - width] = id;
 				q.push(id - width, cost[id - width]);
 			}
 		}
@@ -94,6 +97,7 @@ int labyrynth::pathfinding(int xs, int ys, int xf, int yf)
 			if (cost[id + width] > cost[id] + 1)
 			{
 				cost[id + width] = cost[id] + 1;
+				from[id + width] = id;
 				q.push(id + width, cost[id + width]);
 			}
 		}
@@ -102,6 +106,7 @@ int labyrynth::pathfinding(int xs, int ys, int xf, int yf)
 			if (cost[id - 1] > cost[id] + 1)
 			{
 				cost[id - 1] = cost[id] + 1;
+				from[id - 1] = id;
 				q.push(id - 1, cost[id - 1]);
 			}
 		}
@@ -110,10 +115,29 @@ int labyrynth::pathfinding(int xs, int ys, int xf, int yf)
 			if (cost[id + 1] > cost[id] + 1)
 			{
 				cost[id + 1] = cost[id] + 1;
+				from[id + 1] = id;
 				q.push(id + 1, cost[id + 1]);
 			}
 		}
-		if (id == (yf * width + xf)) 
+		if (id == (yf * width + xf))
+		{
+			drawPath(from, id, cost[id]);
 			return cost[id];
+		}	
 	}
+}
+
+void labyrynth::drawPath(int* from, int id, int count)
+{
+	int i = id;
+	while (from[i] != -1)
+	{
+		if (count > 9)
+			map[i / width][i % width] = 97 + (count - 10);
+		else
+			map[i / width][i % width] = 48 + count;
+		i = from[i];
+		count--;
+	}
+	map[i / width][i % width] = '0';
 }
