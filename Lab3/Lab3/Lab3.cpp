@@ -6,6 +6,9 @@ using namespace std;
 
 int main()
 {
+	labyrynth lab;
+	lab.input();
+	cout << lab.pathfinding(1, 6, 6, 3);
 	return 0;
 }
 
