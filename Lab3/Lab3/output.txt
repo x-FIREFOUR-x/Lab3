@@ -1,7 +1,7 @@
 XXXXXXXXXXXX
-X5678 XXX  X
-X4 X9 XXX  X
-X3 Xabcd   X
+X5678 XXXhiX
+X4 X9 XXXg X
+X3 Xabcdef X
 X2 X  X   XX
 X1 X  X   XX
 X0 X      XX

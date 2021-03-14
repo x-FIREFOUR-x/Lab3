@@ -8,6 +8,7 @@ private:
 	int height, width;
 	void parametres(std::ifstream&);
 	void drawPath(int*, int, int);
+	int heuristic(int, int);
 public:
 	void input();
 	void output();
