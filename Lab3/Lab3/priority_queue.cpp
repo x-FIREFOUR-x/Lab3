@@ -46,7 +46,7 @@ int priority_queue::pop()
 
 	int min_priority = priority[0];
 	int index_el = 0;
-	for (int i = 1; i < _size; i++)
+	for (int i = 1; i < _size; i++)			// search element queue than is the most priority
 	{
 		if (min_priority > priority[i])
 		{
@@ -56,28 +56,11 @@ int priority_queue::pop()
 	}
 	int element = value[index_el];
 
-	int* value_new = new int[_size - 1];
-	int* priority_new = new int[_size - 1];
-
-	for (int i = 0; i < index_el; i++)
+	for (int i = index_el; i < _size; i++)	// overwrite without this element (delete)
 	{
-		value_new[i] = value[i];
-		priority_new[i] = priority[i];
+		value[i] = value[i+1];
+		priority[i] = priority[i+1];
 	}
-	for (int i = index_el + 1; i < _size; i++)
-	{
-		value_new[i - 1] = value[i];
-		priority_new[i - 1] = priority[i];
-	}
-
-	if (_size > 0)
-	{
-		delete[] value;
-		delete[] priority;
-	}
-
-	value = value_new;
-	priority = priority_new;
 
 	_size--;
 
