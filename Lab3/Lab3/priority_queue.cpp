@@ -14,27 +14,49 @@ bool priority_queue::empty()
 
 void priority_queue::push(int value_el, int priority_el)
 {
-	int* value_new = new int[_size + 1];
-	int* priority_new = new int[_size + 1];
 
-	for (int i = 0; i < _size; i++)
+	if (_size + 1 > real_size) // check whether the real arrays needs to be expand (doubled)
 	{
-		value_new[i] = value[i];
-		priority_new[i] = priority[i];
-	}
-	value_new[_size] = value_el;
-	priority_new[_size] = priority_el;
+		if (real_size == 0)
+		{
+			real_size = 1;
+		}
+		else
+		{
+			real_size = real_size * 2;
+		}
 
-	if (_size > 0)
+		int* value_new = new int[real_size];			// expand arrays
+		int* priority_new = new int[real_size];
+
+		for (int i = 0; i < _size; i++)			// overwrite elements queue(arrays) in new arrays 
+		{
+			value_new[i] = value[i];
+			priority_new[i] = priority[i];
+		}
+		value_new[_size] = value_el;
+		priority_new[_size] = priority_el;
+
+		if (_size > 0)		// check whether is old arrays
+		{
+			delete[] value;		// delete old arrays
+			delete[] priority;
+		}
+
+		value = value_new;	
+		priority = priority_new;
+
+		_size++;
+	}
+	else
 	{
-		delete[] value;
-		delete[] priority;
+		value[_size] = value_el;			// adding a new queue element
+		priority[_size] = priority_el;
+
+		_size++;
 	}
 
-	value = value_new;
-	priority = priority_new;
-
-	_size++;
+	
 }
 
 int priority_queue::pop()
@@ -46,7 +68,7 @@ int priority_queue::pop()
 
 	int min_priority = priority[0];
 	int index_el = 0;
-	for (int i = 1; i < _size; i++)
+	for (int i = 1; i < _size; i++)			// search element queue than is the most priority
 	{
 		if (min_priority > priority[i])
 		{
@@ -56,28 +78,11 @@ int priority_queue::pop()
 	}
 	int element = value[index_el];
 
-	int* value_new = new int[_size - 1];
-	int* priority_new = new int[_size - 1];
-
-	for (int i = 0; i < index_el; i++)
+	for (int i = index_el; i < _size; i++)	// overwrite without this element (delete)
 	{
-		value_new[i] = value[i];
-		priority_new[i] = priority[i];
+		value[i] = value[i+1];
+		priority[i] = priority[i+1];
 	}
-	for (int i = index_el + 1; i < _size; i++)
-	{
-		value_new[i - 1] = value[i];
-		priority_new[i - 1] = priority[i];
-	}
-
-	if (_size > 0)
-	{
-		delete[] value;
-		delete[] priority;
-	}
-
-	value = value_new;
-	priority = priority_new;
 
 	_size--;
 
