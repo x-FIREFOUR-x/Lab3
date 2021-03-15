@@ -41,7 +41,7 @@ int priority_queue::pop()
 {
 	if (_size == 0)
 	{
-		return 0;
+		throw "try to remove from empty";
 	}
 
 	int min_priority = priority[0];
