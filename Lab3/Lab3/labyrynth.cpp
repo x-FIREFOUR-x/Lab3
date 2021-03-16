@@ -59,7 +59,10 @@ void labyrynth::output()
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
-			fout << map[i][j];
+			if (map[i][j] == 'X')
+				fout << map[i][j];
+			else
+				fout << map[i][j];
 		fout << endl;
 	}
 	fout.close();
@@ -133,10 +136,10 @@ void labyrynth::drawPath(int* from, int id, int count)
 	int i = id;
 	while (from[i] != -1)
 	{
-		if (count > 9)
-			map[i / width][i % width] = 97 + (count - 10);
+		if (count % 36 > 9)
+			map[i / width][i % width] = 97 + (count % 36 - 10);
 		else
-			map[i / width][i % width] = 48 + count;
+			map[i / width][i % width] = 48 + count % 36;
 		i = from[i];
 		count--;
 	}

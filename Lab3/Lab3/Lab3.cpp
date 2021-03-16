@@ -8,7 +8,7 @@ int main()
 {
 	labyrynth lab;
 	lab.input();
-	cout << lab.pathfinding(1, 6, 10, 1);
+	cout << lab.pathfinding(1, 6, 58, 3);
 	lab.output();
 
 	return 0;
